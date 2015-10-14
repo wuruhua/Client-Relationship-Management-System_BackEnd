@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!--
+	权限表
+-->
+<hibernate-mapping>
+	<class name="com.crm.common.entity.SysRight" table="sys_right"
+		schema="LUSHUN" >
+		<id name="rightCode" type="java.lang.String">
+			<column name="right_code" length="50" />
+			<generator class="increment" />
+		</id>
+		<property name="rightParentCode" type="java.lang.String">
+			<column name="right_parent_code" length="50" />
+		</property>
+		<property name="rightType" type="java.lang.String">
+			<column name="right_type" length="20" />
+		</property>
+		<property name="rightText" type="java.lang.String">
+			<column name="right_text" length="50" />
+		</property>
+		<property name="rightUrl" type="java.lang.String">
+			<column name="right_url" length="100" />
+		</property>
+		<property name="rightTip" type="java.lang.String">
+			<column name="right_tip" length="50" />
+		</property>
+		<!-- right(权限表)——role(角色表) -->
+		<!-- 最好让某一方来维护关系，即在某一方inverse=true ,在这里让角色表维护管理关系-->
+		<bag name="roles" table="sys_role_right" inverse="true">
+			<key>
+				<column name="rf_right_code" length="50"
+					not-null="true" />
+			</key>
+			<many-to-many class="com.crm.common.entity.SysRole"
+				column="rf_role_id" />
+		</bag>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		用户表
+	-->
+<hibernate-mapping>
+	<class name="com.crm.common.entity.SysUser" table="sys_user"
+		schema="LUSHUN" >
+		<id name="usrId" type="java.lang.Integer">
+			<column name="usr_id" />
+			<generator class="increment"></generator>
+		</id>
+		<!-- user(用户表)——>role(角色表) -->
+		<!-- lazy=false表示加载用户对象时自动加载该用户的角色信息 -->
+		<many-to-one name="sysRole" class="com.crm.common.entity.SysRole" fetch="select" lazy="false">
+			<column name="usr_role_id"/>
+		</many-to-one>
+		<property name="usrName" type="java.lang.String">
+			<column name="usr_name" length="50" not-null="true" />
+		</property>
+		<property name="usrPassword" type="java.lang.String">
+			<column name="usr_password" length="50" not-null="true" />
+		</property>
+		<property name="usrFlag" type="java.lang.Integer">
+			<column name="usr_flag" not-null="true" />
+		</property>
+		 <property name="usrRegtime" type="java.util.Date">
+            <column name="usr_regtime" length="23" not-null="true"/>
+        </property>
+         <property name="usrSex" type="java.lang.Integer">
+            <column name="usr_sex" length="2" not-null="true"/>
+        </property>
+	</class>
+</hibernate-mapping>

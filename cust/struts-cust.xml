@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="cust" extends="crm-default">
+		<!-- 客户信息 -->
+		<action name="cust_customer_*" class="customerAction" method="{1}">
+			<!-- 方法跳转到方法 -->
+			<result name="to_list" type="redirect">cust_customer_toList.action
+			</result>
+			<result name="do_list" type="redirect">cust_customer_doList.action
+			</result>
+			<result name="to_Edit" type="redirect">cust_customer_toEdit.action
+			</result>
+			<result name="to_Linkman" type="redirect">cust_customer_toLinkman.action
+			</result>
+			<!-- 方法跳转到页面 -->
+			<result name="list">/jsp/~cust/cust/list.jsp</result>
+			<result name="activities_add">/jsp/~cust/cust/activities_add.jsp</result>
+			<result name="activities_edit">/jsp/~cust/cust/activities_edit.jsp</result>
+			<result name="activities">/jsp/~cust/cust/activities.jsp</result>
+			<result name="edit">/jsp/~cust/cust/edit.jsp</result>
+			<result name="linkman_add">/jsp/~cust/cust/linkman_add.jsp</result>
+			<result name="linkman_edit">/jsp/~cust/cust/linkman_edit.jsp</result>
+			<result name="linkman">/jsp/~cust/cust/linkman.jsp</result>
+			<result name="orders_detail">/jsp/~cust/cust/orders_detail.jsp</result>
+			<result name="orders">/jsp/~cust/cust/orders.jsp</result>
+		</action>
+		<!-- 流失客户 -->
+		<action name="cust_lost_*" class="lostAction" method="{1}">
+		    <result name="to_list" type="redirect">cust_lost_toList.action</result>
+			<!-- 跳转 -->
+			<result name="confirm">/jsp/~cust/lost/confirm.jsp</result>
+			<result name="list">/jsp/~cust/lost/list.jsp</result>
+			<result name="relay">/jsp/~cust/lost/relay.jsp</result>
+		</action>
+	</package>
+</struts>    

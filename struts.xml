@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!--
+		指定Web应用的默认编码集，相当于调用HttpServletRequest对象的setCharacterEncoding方法，最好设置成UTF-8
+	-->
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<!-- 设置浏览器是否缓存静态内容，默认值为true(生产环境下使用)，开发阶段最好关闭 。默认为true -->
+	<constant name="struts.serve.static.browserCache" value="false"></constant>
+	<!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认值为false(生产环境下使用)，开发阶段最好打开 -->
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<!-- struts2的开发模式下使用，这样可以打印出更详细的错误信息  -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 默认的视图主题，最好设置成simple -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<!-- struts action的对象工厂 -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<!-- spring自动注入的方式，可选值有：name, type, auto, constructor 默认为name-->
+	<constant name="struts.objectFactory.spring.autoWire" value="name"></constant>
+	<!-- 用户模块配置 -->
+	<include file="struts-user.xml"></include>
+	<!-- 角色模块配置 -->
+	<include file="struts-role.xml"></include>
+	<!-- 销售管理模块配置 -->
+	<include file="struts-sale.xml"></include>
+	<!-- 客户管理模块配置 -->
+	<include file="struts-cust.xml"></include>
+	<!-- 基础数据库模块配置 -->
+	<include file="struts-basd.xml"></include>
+	<!-- 服务管理模块配置 -->
+	<include file="struts-service.xml"></include>
+	<!-- 统计报表配置 -->
+	<include file="struts-rept.xml"></include>
+
+	<!-- 解决乱码 -->
+	<constant name="struts.i18n.encoding" value="GBK"></constant>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.ui.templateDir" value="template" />
+	<constant name="struts.ui.templateSuffix" value="ftl" />
+	<package name="crm-default" extends="struts-default">
+		<!-- 注册拦截器 -->
+		<interceptors>
+			<interceptor name="right" class="com.crm.filter.RightInterceptor" />
+			<interceptor-stack name="rightStack">
+				<interceptor-ref name="right" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 设定login拦截器为默认拦截器，以便package内部所有action在执行之间都会被login拦截 -->
+		<default-interceptor-ref name="rightStack" />
+		<!-- 全局页面配置 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="success">/success.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="404">/404.jsp</result>
+		</global-results>
+	</package>
+</struts>    

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd ">
+	<!--Action 原型方式，确保Action是线程安全的 -->
+	<bean id="customerAction" class="com.crm.cust.action.CustomerAction" scope="prototype">
+		<property name="customerBiz" ref="customerBizImpl" />
+		<property name="linkmanBiz" ref="linkmanBizImpl"></property>
+		<property name="activityBiz" ref="activityBizImpl"></property>
+		<property name="ordersBiz" ref="ordersBizImpl"></property>
+	</bean>
+	<bean id="lostAction" class="com.crm.cust.action.LostAction" scope="prototype">
+		<property name="lostBiz" ref="lostBizImpl" />
+	</bean>
+	
+
+	
+</beans>

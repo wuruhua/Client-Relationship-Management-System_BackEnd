@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd ">
+	<bean id="customerBizImpl" class="com.crm.cust.biz.impl.CustomerBizImpl">
+		<property name="customerDao" ref="customerDaoImpl"></property>
+	</bean>
+	<bean id="lostBizImpl" class="com.crm.cust.biz.impl.LostBizImpl">
+		<property name="lostDao" ref="lostDaoImpl"></property>
+	</bean>
+	<bean id="linkmanBizImpl" class="com.crm.cust.biz.impl.LinkmanBizImpl">
+	    <property name="linkmanDao" ref="linkmanDaoImpl"></property>
+	</bean>
+	<bean id="activityBizImpl" class="com.crm.cust.biz.impl.ActivityBizImpl">
+	    <property name="activityDao" ref="activityDaoImpl"></property>
+	</bean>
+	<bean id="ordersBizImpl" class="com.crm.cust.biz.impl.OrdersBizImpl">
+	    <property name="ordersDao" ref="ordersDaoImpl"></property>
+	</bean>
+	
+		
+	<bean id="methodInvoking"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="lostBizImpl" />
+		<property name="targetMethod" value="test" />
+	</bean>
+
+	<!--  表达式触发器__指定时间执行任务 
+		  -->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="methodInvoking" />
+		<property name="cronExpression">
+			<value>/5 /1 08 * * ?</value>
+		</property>
+	</bean>
+	<!--  启动任务 
+		  -->
+	<bean id="quartzFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="cronTrigger" />
+			</list>
+		</property>
+	</bean>
+	</beans>

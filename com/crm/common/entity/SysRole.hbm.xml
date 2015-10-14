@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+	角色表
+-->
+<hibernate-mapping>
+	<class name="com.crm.common.entity.SysRole" table="sys_role"
+		schema="LUSHUN" >
+		<id name="roleId" type="java.lang.Integer">
+			<column name="role_id" />
+			<generator class="increment" />
+		</id>
+		<property name="roleName" type="java.lang.String">
+			<column name="role_name" length="50" not-null="true" />
+		</property>
+		<property name="roleDesc" type="java.lang.String">
+			<column name="role_desc" length="50" />
+		</property>
+		<property name="roleFlag" type="java.lang.Integer">
+			<column name="role_flag" />
+		</property>
+		<!-- role(角色表)——>user(用户表)-->
+		<!--
+			inverse=false表示自己管理关系,cascade=save-update表示更新角色时级联(如:重新分配权限时该角色下的用户的权限同时更新)
+		-->
+		<!-- lazy=false表示加载角色时自动加载该角色下的所有用户,因为在更新角色时自动更新该角色下的所有用户，所以需要先加载用户 -->
+		<bag name="sysUsers" inverse="false" cascade="save-update" lazy="false">
+			<key>
+				<column name="usr_role_id" />
+			</key>
+			<one-to-many class="com.crm.common.entity.SysUser" />
+		</bag>
+		<!-- role(角色表)——right(权限表)-->
+		<!-- lazy=false表示加载该角色对象时自动加载该角色下的所有权限 没有inverse表示由自己维护关系 -->
+		<bag name="sysRights" table="sys_role_right" lazy="false">
+			<key>
+				<column name="rf_role_id" not-null="true" />
+			</key>
+			<many-to-many class="com.crm.common.entity.SysRight"
+				column="rf_right_code"/>
+		</bag>
+		<property name="roleRegtime" type="java.util.Date">
+			<column name="role_regtime" />
+		</property>
+	</class>
+</hibernate-mapping>

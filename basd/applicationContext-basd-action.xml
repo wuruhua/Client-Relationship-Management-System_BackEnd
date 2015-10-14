@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd ">
+	<!-- 用户Action 原型方式，确保Action是线程安全的 -->
+	<bean id="basdAction" class="com.crm.basd.action.BasdAction"
+		scope="prototype">
+		<property name="basdBiz" ref="basdBizImpl" />
+		<property name="productBiz" ref="productBizImple"></property>
+		<property name="storageBiz" ref="storageBizImple"></property>
+	</bean>
+
+</beans>

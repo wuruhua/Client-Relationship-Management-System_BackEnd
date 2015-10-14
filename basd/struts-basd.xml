@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="basd" extends="crm-default">
+		<!-- 数据字典管理 -->
+		<action name="base_*" class="basdAction" method="{1}">
+			<result name="dict_add">/jsp/~basd/dict_add.jsp</result>
+			<result name="dict_edit">/jsp/~basd/dict_edit.jsp</result>
+			<result name="dict">/jsp/~basd/dict.jsp</result>
+			<result name="product">/jsp/~basd/product.jsp</result>
+			<result name="storage">/jsp/~basd/storage.jsp</result>
+		</action>
+	</package>
+</struts>    

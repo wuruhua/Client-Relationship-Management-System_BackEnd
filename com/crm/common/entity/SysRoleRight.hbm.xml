@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!--
+		角色表和权限表的关联表
+	-->
+<hibernate-mapping>
+	<class name="com.crm.common.entity.SysRoleRight" table="sys_role_right"
+		schema="LUSHUN" >
+		<id name="rfId" type="java.lang.Integer">
+			<column name="rf_id" />
+			<generator class="increment" />
+		</id>
+		<!-- 角色编号 -->
+		<property name="rfRoleId" type="java.lang.Integer">
+			<column name="rf_role_id" not-null="true" />
+		</property>
+		<!-- 权限编号 -->
+		<property name="rfRightCode" type="java.lang.String">
+			<column name="rf_right_code" length="50" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd ">
+
+	<!-- 读取数据库属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver">
+		</property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl">
+		</property>
+		<property name="username" value="lushun"></property>
+		<property name="password" value="admin"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>
+					com/crm/common/entity/SysRight.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/SysRole.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/SysRoleRight.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/SysUser.hbm.xml
+				</value>
+
+				<value>
+					com/crm/common/entity/CstActivity.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/CstCustomer.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/CstLinkman.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/CstLost.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/CstService.hbm.xml
+				</value>
+
+				<value>
+					com/crm/common/entity/BasDict.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/OrderLine.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/Orders.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/Product.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/Storage.hbm.xml
+				</value>
+
+				<value>
+					com/crm/common/entity/SalChance.hbm.xml
+				</value>
+				<value>
+					com/crm/common/entity/SalPlan.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- hibernate模版,abstract为true表明这个bean只能作为其他bean的父bean使用，不能直接被实例化 -->
+	<bean abstract="true" id="hibernateTemplate" class="com.crm.common.dao.BaseHibernateDAO">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 定义事务管理器 -->
+	<bean id="myHibTxManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+
+	<!-- 定义事务通知 -->
+	<tx:advice id="txAdvice" transaction-manager="myHibTxManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="do*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 声明切面并将通知织入 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.crm.*.dao..*.*(..))"
+			id="bizMethods" />
+		<!-- 织入 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bizMethods" />
+	</aop:config>
+	<!--
+<import resource="quartz.xml"/>
+    		
+--></beans>
